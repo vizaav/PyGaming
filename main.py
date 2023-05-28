@@ -12,7 +12,7 @@ black = 0, 0, 0
 
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Brajanek Defence")
-pygame.display.set_icon(pygame.image.load("assets/icon.jpg"))
+pygame.display.set_icon(pygame.image.load("assets/background.jpg"))
 
 background_image = pygame.image.load("assets/background.png")
 background_image = pygame.transform.scale(background_image, (WINDOWWIDTH, WINDOWHEIGHT))
