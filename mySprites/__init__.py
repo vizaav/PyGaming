@@ -5,6 +5,7 @@ import random
 
 class BrajanekSprite(sprite.Sprite):
     """The main character of the game inherits from the Sprite class"""
+
     def __init__(self):
         super().__init__()
         self.image = wyglad.stanie_S
@@ -81,6 +82,7 @@ class Bushfence(sprite.Sprite):
     """The obstacle of the game inherits from the Sprite class.
     The obstacle can be horizontal or vertical
     """
+
     def __init__(self, isHorizontal):
         """Initializes the obstacle
         :param isHorizontal: True if the obstacle is horizontal, False if the obstacle is vertical
@@ -127,27 +129,34 @@ class Bushfence(sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+
 class Cat(sprite.Sprite):
 
     def __init__(self):
         super().__init__()
-        color = random.choice(["white", "black"])
-        if color == "white":
+        self.color = random.choice(["white", "black"])
+        if self.color == "white":
             self.image = wyglad.wyglady_white_cat["down_stand"]
         else:
             self.image = wyglad.wyglady_black_cat["down_stand"]
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)
-        self.speed = [2, 2]
-        self.catX = self.rect.centerx
-        self.catY = self.rect.centery
+        self.speed = [0.5, 0.5]
+
+        self.spawn = random.choice([(0,300),(800,300),(400,0),(400,600)])
+        self.catX = self.spawn[0]
+        self.catY = self.spawn[1]
 
     def change_image(self, name):
         """Changes the image of the sprite to the one specified by the name
         :param name: name of the image to be changed to
         :return: None"""
-        self.image = wyglad.wyglady[name]
-        self.image = transform.scale(self.image, (30, 50))
+        if self.color == "white":
+            self.image = wyglad.wyglady_white_cat[name]
+        else:
+            self.image = wyglad.wyglady_black_cat[name]
+
+        # self.image = transform.scale(self.image, (30, 50))
         self.rect = self.image.get_rect()
         self.rect.center = (self.rect.centerx, self.rect.centery)
 
@@ -187,10 +196,27 @@ class Cat(sprite.Sprite):
         :return: None"""
         self.rect.center = (self.catX, self.catY)
 
+    def move(self, brajanek):
+        """Moves the sprite in the direction of the sprite
+        :param brajanek: sprite to move towards
+        :return: None"""
 
+        if self.catX < brajanek.brajanekX:
+            self.change_image("right_stand")
+            self.catX += self.speed[0]
+        elif self.catX > brajanek.brajanekX:
+            self.change_image("left_stand")
+            self.catX -= self.speed[0]
+        if self.catY < brajanek.brajanekY:
+            self.change_image("down_stand")
+            self.catY += self.speed[1]
+        elif self.catY > brajanek.brajanekY:
+            self.change_image("up_stand")
+            self.catY -= self.speed[1]
 
-
-
-
-
+    def change_direction(self):
+        """Changes the direction of the sprite
+        :return: None"""
+        self.speed[0] = -self.speed[0]
+        self.speed[1] = -self.speed[1]
 
