@@ -1,5 +1,6 @@
 from pygame import image
 
+# image class
 bieg_A_lewanoga = image.load("assets/brajanek/bieg_A_lewanoga.png")
 bieg_A_prawanoga = image.load("assets/brajanek/bieg_A_prawanoga.png")
 bieg_D_lewanoga = image.load("assets/brajanek/bieg_D_lewanoga.png")
@@ -15,6 +16,7 @@ stanie_W = image.load("assets/brajanek/stanie_W.png")
 porazka = image.load("assets/brajanek/porazka.png")
 bieg_lewo_gif = image.load("assets/brajanek/bieg_lewo.gif")
 
+# dictionary
 wyglady = {"bieg_A_lewanoga": bieg_A_lewanoga,
            "bieg_A_prawanoga": bieg_A_prawanoga,
            "bieg_D_lewanoga": bieg_D_lewanoga,

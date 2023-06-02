@@ -1,6 +1,6 @@
 # Brajanek Defence
 
-Brajanek Defence is a simple game developed using the Pygame library. The game features a character named Brajanek that can be controlled using keyboard inputs to move in different directions.
+Brajanek Defence is a simple developed using the Pygame library. The game features a character named Brajanek that can be controlled using keyboard inputs to move in different directions. Avoiding obstacles, he has to shoot towards his enemies.
 
 ## Installation
 
