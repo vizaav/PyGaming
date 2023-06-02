@@ -66,6 +66,11 @@ bushfences[13].set_location(700, 50)
 bushfences[14].set_location(50, 425)
 bushfences[15].set_location(690, 425)
 
+# CATS
+cats = []
+cats.append(mySprites.Cat())
+cats[0].set_location(screen.get_width() / 2, screen.get_height() / 2)
+
 is_running = False  # Flag to track movement state
 current_direction = None  # Track the current movement direction
 
@@ -138,6 +143,8 @@ while running:
     screen.blit(brajanek.image, brajanek.rect)
     for bushfence in bushfences:
         screen.blit(bushfence.image, bushfence.rect)
+    for cat in cats:
+        screen.blit(cat.image, cat.rect)
     pygame.display.flip()
 
     # collision detection

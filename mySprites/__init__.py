@@ -1,5 +1,6 @@
 from pygame import image, transform, sprite, time
 import mySprites.wyglad as wyglad
+import random
 
 
 class BrajanekSprite(sprite.Sprite):
@@ -67,6 +68,14 @@ class BrajanekSprite(sprite.Sprite):
         brajanekSpriteCopy.brajanekY = self.brajanekY
         return brajanekSpriteCopy
 
+    def die(self):
+        """Changes the image of the sprite to the dead one
+        :return: None"""
+        self.change_image("assets/brajanek/porazka.png")
+        self.image = transform.scale(self.image, (30, 50))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.rect.centerx, self.rect.centery)
+
 
 class Bushfence(sprite.Sprite):
     """The obstacle of the game inherits from the Sprite class.
@@ -117,6 +126,71 @@ class Bushfence(sprite.Sprite):
         :param y: y coordinate of the obstacle"""
         self.rect.x = x
         self.rect.y = y
+
+class Cat(sprite.Sprite):
+
+    def __init__(self):
+        super().__init__()
+        color = random.choice(["white", "black"])
+        if color == "white":
+            self.image = wyglad.wyglady_white_cat["down_stand"]
+        else:
+            self.image = wyglad.wyglady_black_cat["down_stand"]
+        self.rect = self.image.get_rect()
+        self.rect.center = (400, 300)
+        self.speed = [2, 2]
+        self.catX = self.rect.centerx
+        self.catY = self.rect.centery
+
+    def change_image(self, name):
+        """Changes the image of the sprite to the one specified by the name
+        :param name: name of the image to be changed to
+        :return: None"""
+        self.image = wyglad.wyglady[name]
+        self.image = transform.scale(self.image, (30, 50))
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.rect.centerx, self.rect.centery)
+
+    def check_collision(self, brajanek):
+        """Checks if the obstacle collides with the sprite
+        :param brajanek: sprite to check collision with
+        :return: True if the obstacle collides with the sprite, False otherwise"""
+        if self.rect.colliderect(brajanek.rect):
+            return True
+        else:
+            return False
+
+    def get_direction(self, brajanek):
+        """Returns the direction in which the sprite is colliding with the obstacle
+        :param brajanek: sprite to check collision with
+        :return: direction in which the sprite is colliding with the obstacle"""
+        if self.rect.collidepoint(brajanek.rect.midtop):
+            return "UP"
+        elif self.rect.collidepoint(brajanek.rect.midbottom):
+            return "DOWN"
+        elif self.rect.collidepoint(brajanek.rect.midleft):
+            return "LEFT"
+        elif self.rect.collidepoint(brajanek.rect.midright):
+            return "RIGHT"
+        else:
+            return "NONE"
+
+    def set_location(self, x, y):
+        """Sets the location of the obstacle
+        :param x: x coordinate of the obstacle
+        :param y: y coordinate of the obstacle"""
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self):
+        """Updates the location of the sprite
+        :return: None"""
+        self.rect.center = (self.catX, self.catY)
+
+
+
+
+
 
 
 

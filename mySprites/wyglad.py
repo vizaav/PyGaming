@@ -1,5 +1,6 @@
 from pygame import image
 
+# BRAJANEK
 # image class
 bieg_A_lewanoga = image.load("assets/brajanek/bieg_A_lewanoga.png")
 bieg_A_prawanoga = image.load("assets/brajanek/bieg_A_prawanoga.png")
@@ -31,3 +32,36 @@ wyglady = {"bieg_A_lewanoga": bieg_A_lewanoga,
            "stanie_UP": stanie_W,
            "porazka": porazka,
            "bieg_lewo_gif": bieg_lewo_gif}
+
+# WHITE CAT
+
+# dictionary
+wyglady_white_cat = {"down_left_leg": image.load("assets/cats/white/down_left_leg.png"),
+                     "down_right_leg": image.load("assets/cats/white/down_right_leg.png"),
+                     "down_stand": image.load("assets/cats/white/down_stand.png"),
+                     "left_left_leg": image.load("assets/cats/white/left_left_leg.png"),
+                     "left_right_leg": image.load("assets/cats/white/left_right_leg.png"),
+                     "left_stand": image.load("assets/cats/white/left_stand.png"),
+                     "right_left_leg": image.load("assets/cats/white/right_left_leg.png"),
+                     "right_right_leg": image.load("assets/cats/white/right_right_leg.png"),
+                     "right_stand": image.load("assets/cats/white/right_stand.png"),
+                     "up_left_leg": image.load("assets/cats/white/up_left_leg.png"),
+                     "up_right_leg": image.load("assets/cats/white/up_right_leg.png"),
+                     "up_stand": image.load("assets/cats/white/up_stand.png")}
+
+# BLACK CAT
+
+# dictionary
+wyglady_black_cat = {"down_left_leg": image.load("assets/cats/black/down_left_leg.png"),
+                        "down_right_leg": image.load("assets/cats/black/down_right_leg.png"),
+                        "down_stand": image.load("assets/cats/black/down_stand.png"),
+                        "left_left_leg": image.load("assets/cats/black/left_left_leg.png"),
+                        "left_right_leg": image.load("assets/cats/black/left_right_leg.png"),
+                        "left_stand": image.load("assets/cats/black/left_stand.png"),
+                        "right_left_leg": image.load("assets/cats/black/right_left_leg.png"),
+                        "right_right_leg": image.load("assets/cats/black/right_right_leg.png"),
+                        "right_stand": image.load("assets/cats/black/right_stand.png"),
+                        "up_left_leg": image.load("assets/cats/black/up_left_leg.png"),
+                        "up_right_leg": image.load("assets/cats/black/up_right_leg.png"),
+                        "up_stand": image.load("assets/cats/black/up_stand.png")}
+
