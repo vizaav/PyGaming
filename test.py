@@ -3,6 +3,15 @@ import pygame
 from pygame import constants, sprite, image, transform
 from pygame.constants import K_UP, K_RIGHT, K_LEFT, K_a, K_d, K_w, K_s, K_DOWN, K_ESCAPE
 import mySprites
+import threading
+
+
+def colliding(hero, *obstacles):
+    for obstacle in obstacles:
+        if hero.rect.colliderect(obstacle.rect):
+            return True
+    return False
+
 
 pygame.init()
 
@@ -21,6 +30,10 @@ screen.blit(background_image, (0, 0))
 brajanek = mySprites.BrajanekSprite()
 clock = pygame.time.Clock()
 running = True
+
+bushfences = [mySprites.Bushfence(True)]
+bushfences[0].rect.x = 20
+bushfences[0].rect.y = 20
 
 is_running = False  # Flag to track movement state
 current_direction = None  # Track the current movement direction
@@ -69,20 +82,53 @@ while running:
 
     if is_running:
         if current_direction == "RIGHT":
-            brajanek.brajanekX += brajanek.speed[0]
+            new_x = brajanek.brajanekX + brajanek.speed[0]
+            if not colliding(brajanek, *bushfences):
+                brajanek.brajanekX = new_x if new_x < WINDOWWIDTH - brajanek.rect.width else WINDOWWIDTH - brajanek.rect.width
+
         elif current_direction == "LEFT":
-            brajanek.brajanekX -= brajanek.speed[0]
+            new_x = brajanek.brajanekX - brajanek.speed[0]
+            if not colliding(brajanek, *bushfences):
+                brajanek.brajanekX = new_x if new_x > 0 else 0
+
         elif current_direction == "UP":
-            brajanek.brajanekY -= brajanek.speed[1]
+            new_y = brajanek.brajanekY - brajanek.speed[1]
+            if not colliding(brajanek, *bushfences):
+                brajanek.brajanekY = new_y if new_y > 0 else 0
+
         elif current_direction == "DOWN":
-            brajanek.brajanekY += brajanek.speed[1]
+            new_y = brajanek.brajanekY + brajanek.speed[1]
+            if not colliding(brajanek, *bushfences):
+                brajanek.brajanekY = new_y if new_y < WINDOWHEIGHT - brajanek.rect.height else WINDOWHEIGHT - brajanek.rect.height
+
+
+        # elif current_direction == "LEFT":
+        #     brajanek.brajanekX -= brajanek.speed[0]
+        # elif current_direction == "UP":
+        #     brajanek.brajanekY -= brajanek.speed[1]
+        # elif current_direction == "DOWN":
+        #     brajanek.brajanekY += brajanek.speed[1]
+
+        if colliding(brajanek, *bushfences):
+            if current_direction == "RIGHT":
+                brajanek.brajanekX -= brajanek.speed[0]
+            elif current_direction == "LEFT":
+                brajanek.brajanekX += brajanek.speed[0]
+            elif current_direction == "UP":
+                brajanek.brajanekY += brajanek.speed[1]
+            elif current_direction == "DOWN":
+                brajanek.brajanekY -= brajanek.speed[1]
 
     brajanek.rect.center = (brajanek.brajanekX, brajanek.brajanekY)
 
     screen.fill(black)
     screen.blit(background_image, (0, 0))
     screen.blit(brajanek.image, brajanek.rect)
+    screen.blit(bushfences[0].image, bushfences[0].rect)
 
     pygame.display.flip()
+    for bushfence in bushfences:
+        if bushfence.check_collision(brajanek):
+            print("Kolizja")
 
     clock.tick(60)  # Limit the frame rate to 60 FPS
