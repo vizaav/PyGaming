@@ -33,6 +33,8 @@ running = True
 
 # BUSHFENCES
 bushfences = []
+
+# inner fences
 for i in range(0, 4):
     bushfences.append(mySprites.Bushfence(True))
 bushfences[0].set_location(225, 150)
@@ -47,6 +49,14 @@ bushfences[4].set_location(225, 150)
 bushfences[5].set_location(525, 150)
 bushfences[6].set_location(225, 340)
 bushfences[7].set_location(525, 340)
+
+# outer fences
+for i in range(0, 4):
+    bushfences.append(mySprites.Bushfence(True))
+bushfences[8].set_location(50, 50)
+bushfences[9].set_location(600, 50)
+bushfences[10].set_location(50, 500)
+bushfences[11].set_location(600, 500)
 
 
 is_running = False  # Flag to track movement state
