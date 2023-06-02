@@ -86,6 +86,7 @@ bushfences[23].set_location(700, 350)
 cats = []
 for i in range(0, 100):
     cats.append(mySprites.Cat())
+cat_adding_frequency = 1
 
 is_running = False  # Flag to track movement state
 current_direction = None  # Track the current movement direction
@@ -157,8 +158,15 @@ while running:
 
     # cats
     # add a new cat every 5 seconds
+
     if pygame.time.get_ticks() % 5000 < 10:
         cats.append(mySprites.Cat())
+        for i in range(0, cat_adding_frequency):
+            cats.append(mySprites.Cat())
+            cats[-1].rect.center = (cats[-1].catX, cats[-1].catY)
+            screen.blit(cats[-1].image, cats[-1].rect)
+
+        cat_adding_frequency += 1
 
     for cat in cats:
         collision = False

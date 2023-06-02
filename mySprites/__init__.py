@@ -90,10 +90,14 @@ class Bushfence(sprite.Sprite):
         super().__init__()
         if isHorizontal:
             self.image = image.load("assets/obstacles/bushfence_horizontal.png")
+            # i want to set the rect size manually
             self.rect = self.image.get_rect()
+            # self.rect = self.rect.inflate(-10, -10)
         else:
             self.image = image.load("assets/obstacles/bushfence_vertical.png")
+            # i want to set the rect size manually
             self.rect = self.image.get_rect()
+            # self.rect = self.rect.inflate(-10, -10)
 
         self.bushfenceX = self.rect.centerx
         self.bushfenceY = self.rect.centery
