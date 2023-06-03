@@ -147,9 +147,10 @@ class Cat(sprite.Sprite):
         self.rect.center = (400, 300)
         self.speed = [0.5, 0.5]
 
-        self.spawn = random.choice([(0,300),(800,300),(400,0),(400,600)])
+        self.spawn = random.choice([(0, 300), (800, 300), (400, 0), (400, 600)])
         self.catX = self.spawn[0]
         self.catY = self.spawn[1]
+        self.direction = self.get_direction(brajanek=self)
 
     def change_image(self, name):
         """Changes the image of the sprite to the one specified by the name
@@ -223,4 +224,3 @@ class Cat(sprite.Sprite):
         :return: None"""
         self.speed[0] = -self.speed[0]
         self.speed[1] = -self.speed[1]
-
