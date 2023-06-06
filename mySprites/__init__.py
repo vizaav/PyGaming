@@ -1,4 +1,4 @@
-from pygame import image, transform, sprite, time
+from pygame import image, transform, sprite, time, mouse, Surface, draw
 import mySprites.wyglad as wyglad
 import random
 
@@ -224,3 +224,49 @@ class Cat(sprite.Sprite):
         :return: None"""
         self.speed[0] = -self.speed[0]
         self.speed[1] = -self.speed[1]
+
+
+"""class shoot, menages the crosshair and bullet sprites and collision with enemies"""
+
+
+class Bullet(sprite.Sprite):
+
+    def __init__(self, brajanek, speed, direction):
+        super().__init__()
+        self.image = wyglad.wyglady_bullet["bullet"]
+        self.image = transform.scale(self.image, (10, 10))
+        self.rect = self.image.get_rect()
+        self.rect.center = (brajanek.brajanekX, brajanek.brajanekY)
+        self.bulletX = brajanek.brajanekX
+        self.bulletY = brajanek.brajanekY
+        self.speed = speed
+        if direction is None:
+            print("My direction is NONE!")
+        else:
+            self.direction = direction
+
+    # def check_collision(self, cat):
+    #     """Checks if the obstacle collides with the sprite
+    #     :param cat: sprite to check collision with
+    #     :return: True if the obstacle collides with the sprite, False otherwise"""
+    #     if self.rect.colliderect(cat.rect):
+    #         return True
+    #     else:
+    #         return False
+
+    def kill(self) -> None:
+        """Kills the sprite
+        :return: None"""
+        super().kill()
+
+
+
+"""class money, menages the money sprites and collision with brajanek"""
+
+"""class end, menages the end screen and quiting te program"""
+
+
+
+
+"""class drop, menages random drop, such as money and different gun or it's upgrade"""
+

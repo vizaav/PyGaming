@@ -1,6 +1,6 @@
 import pygame
 from pygame import constants, sprite, image, transform, time
-from pygame.constants import K_UP, K_RIGHT, K_LEFT, K_a, K_d, K_w, K_s, K_DOWN, K_ESCAPE
+from pygame.constants import K_UP, K_RIGHT, K_LEFT, K_a, K_d, K_w, K_s, K_DOWN, K_ESCAPE, K_SPACE
 import mySprites
 
 
@@ -26,11 +26,18 @@ pygame.display.set_icon(pygame.image.load("assets/background.png"))
 background_image = pygame.image.load("assets/background.png")
 background_image = pygame.transform.scale(background_image, (WINDOWWIDTH, WINDOWHEIGHT))
 screen.blit(background_image, (0, 0))
+#shoot = mySprites.Shoot()
 
 # brajanek
 brajanek = mySprites.BrajanekSprite()
 clock = pygame.time.Clock()
 running = True
+previous_direction = "DOWN"
+
+# GUN STUFF
+
+bgroup = []
+bspeed = [10, 10]
 
 # BUSHFENCES
 bushfences = []
@@ -123,6 +130,15 @@ while running:
                 brajanek.change_image("bieg_S_lewanoga")
                 is_running = True
                 current_direction = "DOWN"
+            elif event.key == K_SPACE:
+                print("space")
+                if current_direction is None:
+                    new_shoot = mySprites.Bullet(brajanek, bspeed, previous_direction)
+                else:
+                    new_shoot = mySprites.Bullet(brajanek, bspeed, current_direction)
+                bgroup.append(new_shoot)
+                screen.blit(new_shoot.image, new_shoot.rect )
+                pygame.display.flip()
         elif event.type == constants.KEYUP:
             # change of direction
             if (
@@ -141,7 +157,29 @@ while running:
                 # when key is released, change of appearance
                 brajanek.change_image("stanie_" + current_direction)
                 is_running = False
+                previous_direction = current_direction
                 current_direction = None
+            elif event.key == K_SPACE:
+                is_shooting = False
+
+
+    # movement of the bullet
+    for bullet in bgroup:
+        if bullet.direction == "RIGHT":
+            bullet.bulletX += bullet.speed[0]
+        elif bullet.direction == "LEFT":
+            bullet.bulletX -= bullet.speed[0]
+        elif bullet.direction == "UP":
+            bullet.bulletY -= bullet.speed[1]
+        elif bullet.direction == "DOWN":
+            bullet.bulletY += bullet.speed[1]
+
+
+
+        bullet.rect.center = (bullet.bulletX, bullet.bulletY)
+        screen.blit(bullet.image, bullet.rect)
+        pygame.display.flip()
+
 
     # motion
     if is_running:
@@ -181,6 +219,8 @@ while running:
             cat.move(brajanek)
         cat.rect.center = (cat.catX, cat.catY)
 
+
+
     if pygame.sprite.spritecollide(brajanek, cats, False):
         """DEATH OF BRAJANEK"""
         # BRAJANEK HAS FALLEN
@@ -201,6 +241,8 @@ while running:
         screen.blit(bushfence.image, bushfence.rect)
     for cat in cats:
         screen.blit(cat.image, cat.rect)
+    for bullet in bgroup:
+        screen.blit(bullet.image, bullet.rect)
     pygame.display.flip()
 
     # collision detection

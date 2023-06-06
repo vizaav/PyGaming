@@ -65,3 +65,7 @@ wyglady_black_cat = {"down_left_leg": image.load("assets/cats/black/down_left_le
                         "up_right_leg": image.load("assets/cats/black/up_right_leg.png"),
                         "up_stand": image.load("assets/cats/black/up_stand.png")}
 
+# BULLET
+
+# dictionary
+wyglady_bullet = {"bullet": image.load("assets/bullet.png")}
