@@ -136,7 +136,7 @@ class Bushfence(sprite.Sprite):
 
 class Cat(sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, speed=0.5, spawn=random.choice([(0, 300), (800, 300), (400, 0), (400, 600)])):
         super().__init__()
         self.color = random.choice(["white", "black"])
         if self.color == "white":
@@ -145,9 +145,9 @@ class Cat(sprite.Sprite):
             self.image = wyglad.wyglady_black_cat["down_stand"]
         self.rect = self.image.get_rect()
         self.rect.center = (400, 300)
-        self.speed = [0.5, 0.5]
+        self.speed = [speed, speed]
 
-        self.spawn = random.choice([(0, 300), (800, 300), (400, 0), (400, 600)])
+        self.spawn = spawn
         self.catX = self.spawn[0]
         self.catY = self.spawn[1]
         self.direction = self.get_direction(brajanek=self)
@@ -260,13 +260,25 @@ class Bullet(sprite.Sprite):
         super().kill()
 
 
-
 """class money, menages the money sprites and collision with brajanek"""
 
 """class end, menages the end screen and quiting te program"""
 
-
-
-
 """class drop, menages random drop, such as money and different gun or it's upgrade"""
 
+class Player:
+    def __init__(self):
+        self.lives = 3
+        self.score = 0
+
+    def get_lives(self):
+        return self.lives
+
+    def get_score(self):
+        return self.score
+
+    def decrease_lives(self):
+        self.lives -= 1
+
+    def increase_score(self, amount):
+        self.score += amount
