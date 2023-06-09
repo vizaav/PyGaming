@@ -26,7 +26,11 @@ pygame.display.set_icon(pygame.image.load("assets/background.png"))
 background_image = pygame.image.load("assets/background.png")
 background_image = pygame.transform.scale(background_image, (WINDOWWIDTH, WINDOWHEIGHT))
 screen.blit(background_image, (0, 0))
-#shoot = mySprites.Shoot()
+# shoot = mySprites.Shoot()
+
+
+# PLAYER
+player = mySprites.Player()
 
 # brajanek
 brajanek = mySprites.BrajanekSprite()
@@ -91,9 +95,10 @@ bushfences[23].set_location(700, 350)
 
 # CATS
 cats = []
-for i in range(0, 100):
+for i in range(0, 4):
     cats.append(mySprites.Cat())
 cat_adding_frequency = 1
+CAT_SPEED = 0.5
 
 is_running = False  # Flag to track movement state
 current_direction = None  # Track the current movement direction
@@ -131,13 +136,14 @@ while running:
                 is_running = True
                 current_direction = "DOWN"
             elif event.key == K_SPACE:
-                print("space")
                 if current_direction is None:
+                    # shooting while standing
                     new_shoot = mySprites.Bullet(brajanek, bspeed, previous_direction)
                 else:
+                    # shooting while running
                     new_shoot = mySprites.Bullet(brajanek, bspeed, current_direction)
                 bgroup.append(new_shoot)
-                screen.blit(new_shoot.image, new_shoot.rect )
+                screen.blit(new_shoot.image, new_shoot.rect)
                 pygame.display.flip()
         elif event.type == constants.KEYUP:
             # change of direction
@@ -162,7 +168,6 @@ while running:
             elif event.key == K_SPACE:
                 is_shooting = False
 
-
     # movement of the bullet
     for bullet in bgroup:
         if bullet.direction == "RIGHT":
@@ -174,12 +179,9 @@ while running:
         elif bullet.direction == "DOWN":
             bullet.bulletY += bullet.speed[1]
 
-
-
         bullet.rect.center = (bullet.bulletX, bullet.bulletY)
         screen.blit(bullet.image, bullet.rect)
         pygame.display.flip()
-
 
     # motion
     if is_running:
@@ -197,14 +199,20 @@ while running:
     # cats
     # add a new cat every 5 seconds
 
-    if pygame.time.get_ticks() % 5000 < 10:
-        cats.append(mySprites.Cat())
-        for i in range(0, cat_adding_frequency):
-            cats.append(mySprites.Cat())
+    if pygame.time.get_ticks() % 200 == 0:
+        for i in range(0, 4):
+
+            if i == 0:
+                cats.append(mySprites.Cat(speed=CAT_SPEED, spawn=(0, 300)))
+            elif i == 1:
+                cats.append(mySprites.Cat(speed=CAT_SPEED, spawn=(800, 300)))
+            elif i == 2:
+                cats.append(mySprites.Cat(speed=CAT_SPEED, spawn=(400, 0)))
+            elif i == 3:
+                cats.append(mySprites.Cat(speed=CAT_SPEED, spawn=(400, 600)))
             cats[-1].rect.center = (cats[-1].catX, cats[-1].catY)
             screen.blit(cats[-1].image, cats[-1].rect)
-
-        cat_adding_frequency += 1
+        CAT_SPEED += 0.1
 
     for cat in cats:
         collision = False
@@ -219,19 +227,44 @@ while running:
             cat.move(brajanek)
         cat.rect.center = (cat.catX, cat.catY)
 
-
-
+    # COLLISIONS - BRAJANEK, BUSHES, CATS, BULLETS
     if pygame.sprite.spritecollide(brajanek, cats, False):
-        """DEATH OF BRAJANEK"""
-        # BRAJANEK HAS FALLEN
-        print("BRAJANEK HAS FALLEN")
-        brajanek.change_image("porazka")
-        brajanek.rect.center = (brajanek.brajanekX, brajanek.brajanekY)
-        pygame.display.flip()
-        screen.blit(brajanek.image, brajanek.rect)
-        pygame.display.flip()
-        pygame.time.wait(1000)
-        running = False
+        # player.decrease_lives()
+        # for cat in cats:
+        #     if cat.check_collision(brajanek):
+        #         cats.remove(cat)
+        if player.lives == 0:
+            """DEATH OF BRAJANEK"""
+            # BRAJANEK HAS FALLEN
+            print("BRAJANEK HAS FALLEN")
+            brajanek.change_image("porazka")
+            brajanek.rect.center = (brajanek.brajanekX, brajanek.brajanekY)
+            pygame.display.flip()
+            screen.blit(brajanek.image, brajanek.rect)
+            pygame.display.flip()
+            pygame.time.wait(1000)
+            print("GAME OVER")
+            print("SCORE: " + str(player.score))
+            print("TIME: " + str(pygame.time.get_ticks() / 1000))
+            running = False
+
+    for cat in cats:
+        for bullet in bgroup:
+            if pygame.sprite.collide_rect(cat, bullet):
+                """DEATH OF CAT"""
+                # CAT HAS BEEN SHOT
+                player.increase_score(1)
+                cats.remove(cat)
+                bgroup.remove(bullet)
+                screen.blit(cat.image, cat.rect)
+                screen.blit(bullet.image, bullet.rect)
+                pygame.display.flip()
+                break
+        if pygame.sprite.collide_rect(cat, brajanek):
+            """DECREASE OF LIVES"""
+            cats.remove(cat)
+            player.decrease_lives()
+            print("Lives left: " + str(player.lives))
 
     # drawing - do not touch
     screen.fill(black)

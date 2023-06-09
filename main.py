@@ -47,6 +47,7 @@ bspeed = [10, 10]
 bushfences = []
 
 # inner fences
+# horizontal
 for i in range(0, 4):
     bushfences.append(mySprites.Bushfence(True))
 bushfences[0].set_location(225, 150)
@@ -54,49 +55,63 @@ bushfences[1].set_location(425, 150)
 bushfences[2].set_location(225, 400)
 bushfences[3].set_location(425, 400)
 
+# vertical
 for i in range(0, 4):
     bushfences.append(mySprites.Bushfence(False))
-
 bushfences[4].set_location(225, 150)
 bushfences[5].set_location(525, 150)
 bushfences[6].set_location(225, 340)
 bushfences[7].set_location(525, 340)
 
-# outer fences
-for i in range(0, 4):
+# outer fences - upper screen, horizontal
+for i in range(0, 6):
     bushfences.append(mySprites.Bushfence(True))
-bushfences[8].set_location(50, 50)
-bushfences[9].set_location(600, 50)
-bushfences[10].set_location(50, 500)
-bushfences[11].set_location(600, 500)
+bushfences[8].set_location(0, 0)
+bushfences[9].set_location(127, 0)
+bushfences[10].set_location(200, 0)
+bushfences[11].set_location(450, 0)
+bushfences[12].set_location(577, 0)
+bushfences[13].set_location(704, 0)
 
-for i in range(0, 4):
+# outer fences - lower screen, vertical, from bottom to top
+
+for i in range(0, 12):
     bushfences.append(mySprites.Bushfence(False))
+# left side - down
+bushfences[14].set_location(0, 340)
+bushfences[15].set_location(0, 420)
+bushfences[16].set_location(0, 500)
 
-bushfences[12].set_location(50, 50)
-bushfences[13].set_location(700, 50)
-bushfences[14].set_location(50, 425)
-bushfences[15].set_location(690, 425)
+# left side - up
+bushfences[17].set_location(0, 0)
+bushfences[18].set_location(0, 70)
+bushfences[19].set_location(0, 140)
 
-for i in range(0, 4):
+# right side - down
+bushfences[20].set_location(760, 340)
+bushfences[21].set_location(760, 420)
+bushfences[22].set_location(760, 500)
+
+# right side - up
+bushfences[23].set_location(760, 0)
+bushfences[24].set_location(760, 70)
+bushfences[25].set_location(760, 140)
+
+for i in range(0, 6):
     bushfences.append(mySprites.Bushfence(True))
-bushfences[16].set_location(150, 50)
-bushfences[17].set_location(500, 50)
-bushfences[18].set_location(150, 500)
-bushfences[19].set_location(500, 500)
 
-for i in range(0, 4):
-    bushfences.append(mySprites.Bushfence(False))
+# outer fences - left screen, horizontal
+bushfences[26].set_location(0, 550)
+bushfences[27].set_location(127, 550)
+bushfences[28].set_location(200, 550)
 
-bushfences[20].set_location(50, 125)
-bushfences[21].set_location(700, 125)
-bushfences[22].set_location(50, 350)
-bushfences[23].set_location(700, 350)
+# outer fences - right screen, horizontal
+bushfences[29].set_location(450, 550)
+bushfences[30].set_location(577, 550)
+bushfences[31].set_location(704, 550)
 
 # CATS
 cats = []
-for i in range(0, 4):
-    cats.append(mySprites.Cat())
 cat_adding_frequency = 1
 CAT_SPEED = 0.5
 
@@ -212,7 +227,6 @@ while running:
                 cats.append(mySprites.Cat(speed=CAT_SPEED, spawn=(400, 600)))
             cats[-1].rect.center = (cats[-1].catX, cats[-1].catY)
             screen.blit(cats[-1].image, cats[-1].rect)
-        CAT_SPEED += 0.1
 
     for cat in cats:
         collision = False
