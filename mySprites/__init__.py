@@ -282,3 +282,29 @@ class Player:
 
     def increase_score(self, amount):
         self.score += amount
+
+
+class Coin(sprite.Sprite):
+
+    def __init__(self, catX, catY):
+        super().__init__()
+        self.image = wyglad.wyglady_coin["coin"]
+        self.image = transform.scale(self.image, (20, 20))
+        self.rect = self.image.get_rect()
+        self.rect.center = (catX, catY)
+        self.coinX = catX
+        self.coinY = catY
+
+
+class Heart(sprite.Sprite):
+
+        def __init__(self, x, y):
+            super().__init__()
+            self.image = wyglad.wyglady_heart["heart"]
+            self.image = transform.scale(self.image, (40, 40))
+            self.rect = self.image.get_rect()
+            self.rect.center = (x, y)
+            self.heartX = x
+            self.heartY = y
+
+

@@ -2,6 +2,7 @@ import pygame
 from pygame import constants, sprite, image, transform, time
 from pygame.constants import K_UP, K_RIGHT, K_LEFT, K_a, K_d, K_w, K_s, K_DOWN, K_ESCAPE, K_SPACE
 import mySprites
+import random
 
 
 def colliding(hero, *obstacles):
@@ -26,9 +27,13 @@ pygame.display.set_icon(pygame.image.load("assets/background.png"))
 background_image = pygame.image.load("assets/background.png")
 background_image = pygame.transform.scale(background_image, (WINDOWWIDTH, WINDOWHEIGHT))
 screen.blit(background_image, (0, 0))
-# shoot = mySprites.Shoot()
-
-
+# UI
+font = pygame.font.Font(None, 36)
+text_color = (255, 255, 255)  # Biały
+text = "Lifes: "
+# COIN STUFF
+cgroup = []
+counter = 0
 # PLAYER
 player = mySprites.Player()
 
@@ -197,6 +202,7 @@ while running:
     brajanek.rect.center = (brajanek.brajanekX, brajanek.brajanekY)
 
     # cats
+
     # add a new cat every 5 seconds
 
     if pygame.time.get_ticks() % 200 == 0:
@@ -255,6 +261,13 @@ while running:
                 # CAT HAS BEEN SHOT
                 player.increase_score(1)
                 cats.remove(cat)
+                # coin spown and randomness
+                coin_spawn = random.randint(0, 100)
+                if (coin_spawn > 90):
+                    coin = mySprites.Coin(cat.catX, cat.catY)
+                    cgroup.append(coin)
+                    coin.rect.center = (coin.coinX, coin.coinY)
+                    screen.blit(coin.image, coin.rect)
                 bgroup.remove(bullet)
                 screen.blit(cat.image, cat.rect)
                 screen.blit(bullet.image, bullet.rect)
@@ -266,6 +279,12 @@ while running:
             player.decrease_lives()
             print("Lives left: " + str(player.lives))
 
+    for coin in cgroup:
+        if pygame.sprite.collide_rect(coin, brajanek):
+            cgroup.remove(coin)
+            counter += 1
+
+
     # drawing - do not touch
     screen.fill(black)
     screen.blit(background_image, (0, 0))
@@ -276,6 +295,26 @@ while running:
         screen.blit(cat.image, cat.rect)
     for bullet in bgroup:
         screen.blit(bullet.image, bullet.rect)
+    for coin in cgroup:
+        screen.blit(coin.image, coin.rect)
+    if (player.lives == 3):
+        heart1 = mySprites.Heart(20, 15)
+        heart2 = mySprites.Heart(50, 15)
+        heart3 = mySprites.Heart(80, 15)
+        screen.blit(heart1.image, heart1.rect)
+        screen.blit(heart2.image, heart2.rect)
+        screen.blit(heart3.image, heart3.rect)
+    elif (player.lives == 2):
+        heart1 = mySprites.Heart(20, 15)
+        heart2 = mySprites.Heart(50, 15)
+        screen.blit(heart1.image, heart1.rect)
+        screen.blit(heart2.image, heart2.rect)
+    elif (player.lives == 1):
+        heart1 = mySprites.Heart(20, 15)
+        screen.blit(heart1.image, heart1.rect)
+    elif (player.lives == 0):
+        text = font.render("LAST ONE", True, (255, 255, 255))
+        screen.blit(text, (10, 10))
     pygame.display.flip()
 
     # collision detection
