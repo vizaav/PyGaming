@@ -7,6 +7,9 @@ class BrajanekSprite(sprite.Sprite):
     """The main character of the game inherits from the Sprite class"""
 
     def __init__(self):
+        """
+        Initializes the player sprites
+        """
         super().__init__()
         self.image = wyglad.stanie_S
         self.image = transform.scale(self.image, (30, 50))
@@ -137,6 +140,11 @@ class Bushfence(sprite.Sprite):
 class Cat(sprite.Sprite):
 
     def __init__(self, speed=0.5, spawn=random.choice([(0, 300), (800, 300), (400, 0), (400, 600)])):
+        """
+        Initializes the cat, it's two different states and colours
+        :param speed: How fast is the cat, and how feral it is (BE SCARED)
+        :param spawn: The location where the cat spawns
+        """
         super().__init__()
         self.color = random.choice(["white", "black"])
         if self.color == "white":
@@ -225,13 +233,16 @@ class Cat(sprite.Sprite):
         self.speed[0] = -self.speed[0]
         self.speed[1] = -self.speed[1]
 
-
-"""class shoot, menages the crosshair and bullet sprites and collision with enemies"""
-
-
 class Bullet(sprite.Sprite):
 
     def __init__(self, brajanek, speed, direction):
+        """
+        Initiates the bullet sprite, sets the image size and location based on a player coordinates
+        :param brajanek: takes player coordinates
+        :param speed: sets speed of the bullet
+        :param direction: sets direction of the bullet based upon players last input direction
+        """
+
         super().__init__()
         self.image = wyglad.wyglady_bullet["bullet"]
         self.image = transform.scale(self.image, (10, 10))
@@ -259,34 +270,52 @@ class Bullet(sprite.Sprite):
         :return: None"""
         super().kill()
 
-
-"""class money, menages the money sprites and collision with brajanek"""
-
-"""class end, menages the end screen and quiting te program"""
-
-"""class drop, menages random drop, such as money and different gun or it's upgrade"""
-
 class Player:
     def __init__(self):
+        """
+        Initializes the player class, sets the lives to 3 and score to 0, it is meant to be used outside of player so that Brajanek doesnt have too many functions
+        """
         self.lives = 3
         self.score = 0
 
     def get_lives(self):
+        """
+        Returns the amount of lives the player has
+        :return: returns how many lives the player has left
+        """
         return self.lives
 
     def get_score(self):
+        """
+        Returns the score of the player
+        :return: how many cats the player had neutralized :)
+        """
         return self.score
 
     def decrease_lives(self):
+        """
+        Decreases the amount of lives the player has by 1
+        :return: Players new amount of lives
+        """
         self.lives -= 1
 
     def increase_score(self, amount):
+        """
+        Increases the score of the player by the given amount
+        :param amount: set in main :)
+        :return: the new score of the player
+        """
         self.score += amount
 
 
 class Coin(sprite.Sprite):
 
     def __init__(self, catX, catY):
+        """
+         Initializes the coin sprite, changes it's image size to 20x20 and sets it's location to the given coordinates
+        :param catX: takes it from the Cat class it's used to set the x location of the coin
+        :param catY: takes it from the Cat class it's used to set the y location of the coin
+        """
         super().__init__()
         self.image = wyglad.wyglady_coin["coin"]
         self.image = transform.scale(self.image, (20, 20))
@@ -299,6 +328,11 @@ class Coin(sprite.Sprite):
 class Heart(sprite.Sprite):
 
         def __init__(self, x, y):
+            """
+            Initializes the heart sprite, changes it's image size to 40x40 and sets it's location to the given coordinates used for UI nothing else
+            :param x: takes given x coordinate for it to be placed on the screen
+            :param y: takes given y coordinate for it to be placed on the screen
+            """
             super().__init__()
             self.image = wyglad.wyglady_heart["heart"]
             self.image = transform.scale(self.image, (40, 40))
@@ -307,4 +341,20 @@ class Heart(sprite.Sprite):
             self.heartX = x
             self.heartY = y
 
+class CoinUI(sprite.Sprite):
 
+        def __init__(self, x, y):
+            """
+            Initializes the Second coin sprite, second bc of the size of playable and collidable one isnt good and changing it inside main would be a pain to fix
+            changes it's image size to 40x40 and sets it's location to the given coordinates
+            Used for UI nothing else
+            :param x: takes given x coordinate for it to be placed on the screen
+            :param y: takes given y coordinate for it to be placed on the screen
+            """
+            super().__init__()
+            self.image = wyglad.wyglady_coin["coin"]
+            self.image = transform.scale(self.image, (40, 40))
+            self.rect = self.image.get_rect()
+            self.rect.center = (x, y)
+            self.coinX = x
+            self.coinY = y

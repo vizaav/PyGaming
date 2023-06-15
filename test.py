@@ -15,7 +15,7 @@ def colliding(hero, *obstacles):
 
 # it just must be here
 pygame.init()
-
+print(pygame.font.get_fonts())
 # screen - do not touch
 size = WINDOWWIDTH, WINDOWHEIGHT = 800, 600
 speed = [5, 5]
@@ -27,10 +27,10 @@ pygame.display.set_icon(pygame.image.load("assets/background.png"))
 background_image = pygame.image.load("assets/background.png")
 background_image = pygame.transform.scale(background_image, (WINDOWWIDTH, WINDOWHEIGHT))
 screen.blit(background_image, (0, 0))
-# UI
-font = pygame.font.Font(None, 36)
-text_color = (255, 255, 255)  # Biały
-text = "Lifes: "
+# UI font
+font = pygame.font.SysFont('consolas', 20)
+fontend = pygame.font.SysFont('consolas', 50)
+
 # COIN STUFF
 cgroup = []
 counter = 0
@@ -59,45 +59,60 @@ bushfences[1].set_location(425, 150)
 bushfences[2].set_location(225, 400)
 bushfences[3].set_location(425, 400)
 
+# vertical
 for i in range(0, 4):
     bushfences.append(mySprites.Bushfence(False))
-
 bushfences[4].set_location(225, 150)
 bushfences[5].set_location(525, 150)
 bushfences[6].set_location(225, 340)
 bushfences[7].set_location(525, 340)
 
-# outer fences
-for i in range(0, 4):
+# outer fences - upper screen, horizontal
+for i in range(0, 6):
     bushfences.append(mySprites.Bushfence(True))
-bushfences[8].set_location(50, 50)
-bushfences[9].set_location(600, 50)
-bushfences[10].set_location(50, 500)
-bushfences[11].set_location(600, 500)
+bushfences[8].set_location(0, 0)
+bushfences[9].set_location(127, 0)
+bushfences[10].set_location(200, 0)
+bushfences[11].set_location(450, 0)
+bushfences[12].set_location(577, 0)
+bushfences[13].set_location(704, 0)
 
-for i in range(0, 4):
+# outer fences - lower screen, vertical, from bottom to top
+
+for i in range(0, 12):
     bushfences.append(mySprites.Bushfence(False))
+# left side - down
+bushfences[14].set_location(0, 340)
+bushfences[15].set_location(0, 420)
+bushfences[16].set_location(0, 500)
 
-bushfences[12].set_location(50, 50)
-bushfences[13].set_location(700, 50)
-bushfences[14].set_location(50, 425)
-bushfences[15].set_location(690, 425)
+# left side - up
+bushfences[17].set_location(0, 0)
+bushfences[18].set_location(0, 70)
+bushfences[19].set_location(0, 140)
 
-for i in range(0, 4):
+# right side - down
+bushfences[20].set_location(760, 340)
+bushfences[21].set_location(760, 420)
+bushfences[22].set_location(760, 500)
+
+# right side - up
+bushfences[23].set_location(760, 0)
+bushfences[24].set_location(760, 70)
+bushfences[25].set_location(760, 140)
+
+for i in range(0, 6):
     bushfences.append(mySprites.Bushfence(True))
-bushfences[16].set_location(150, 50)
-bushfences[17].set_location(500, 50)
-bushfences[18].set_location(150, 500)
-bushfences[19].set_location(500, 500)
 
-for i in range(0, 4):
-    bushfences.append(mySprites.Bushfence(False))
+# outer fences - left screen, horizontal
+bushfences[26].set_location(0, 550)
+bushfences[27].set_location(127, 550)
+bushfences[28].set_location(200, 550)
 
-bushfences[20].set_location(50, 125)
-bushfences[21].set_location(700, 125)
-bushfences[22].set_location(50, 350)
-bushfences[23].set_location(700, 350)
-
+# outer fences - right screen, horizontal
+bushfences[29].set_location(450, 550)
+bushfences[30].set_location(577, 550)
+bushfences[31].set_location(704, 550)
 # CATS
 cats = []
 for i in range(0, 4):
@@ -173,7 +188,7 @@ while running:
             elif event.key == K_SPACE:
                 is_shooting = False
 
-    # movement of the bullet
+    # Movement of the bullets based on brajanek direction of movement, if movement is halted -> based on previous direction
     for bullet in bgroup:
         if bullet.direction == "RIGHT":
             bullet.bulletX += bullet.speed[0]
@@ -188,7 +203,7 @@ while running:
         screen.blit(bullet.image, bullet.rect)
         pygame.display.flip()
 
-    # motion
+    # MOTION OF THE BRAJANEK
     if is_running:
         if current_direction == "RIGHT":
             brajanek.brajanekX += brajanek.speed[0]
@@ -201,7 +216,7 @@ while running:
 
     brajanek.rect.center = (brajanek.brajanekX, brajanek.brajanekY)
 
-    # cats
+    # CATS BRAINS
 
     # add a new cat every 5 seconds
 
@@ -253,6 +268,19 @@ while running:
             print("SCORE: " + str(player.score))
             print("TIME: " + str(pygame.time.get_ticks() / 1000))
             running = False
+    if counter >= 10:
+        # Winning condition and end of the game
+        waiting = True
+        while waiting:
+            #fontend.set_bold(True)
+            text = fontend.render("YOU WON", True, (255, 255, 255))
+            # Making sure the text is centered (it isnt and it doesnt like me very much)
+            screen.blit(text, (400 - text.get_width() // 2, 300 - text.get_height() // 2))
+            pygame.display.flip()
+            pygame.time.delay(1000)
+            waiting = False
+        pygame.time.wait(1000)
+        running = False
 
     for cat in cats:
         for bullet in bgroup:
@@ -262,10 +290,12 @@ while running:
                 player.increase_score(1)
                 cats.remove(cat)
                 # coin spown and randomness
-                coin_spawn = random.randint(0, 100)
-                if (coin_spawn > 90):
+                coin_spawn = random.randint(0, 1000)
+                print(coin_spawn)
+                if (coin_spawn > 900 ):
                     coin = mySprites.Coin(cat.catX, cat.catY)
                     cgroup.append(coin)
+                    player.increase_score(10)
                     coin.rect.center = (coin.coinX, coin.coinY)
                     screen.blit(coin.image, coin.rect)
                 bgroup.remove(bullet)
@@ -284,7 +314,6 @@ while running:
             cgroup.remove(coin)
             counter += 1
 
-
     # drawing - do not touch
     screen.fill(black)
     screen.blit(background_image, (0, 0))
@@ -297,6 +326,8 @@ while running:
         screen.blit(bullet.image, bullet.rect)
     for coin in cgroup:
         screen.blit(coin.image, coin.rect)
+
+    # Drawing Lives of the player
     if (player.lives == 3):
         heart1 = mySprites.Heart(20, 15)
         heart2 = mySprites.Heart(50, 15)
@@ -314,7 +345,20 @@ while running:
         screen.blit(heart1.image, heart1.rect)
     elif (player.lives == 0):
         text = font.render("LAST ONE", True, (255, 255, 255))
-        screen.blit(text, (10, 10))
+        screen.blit(text, (20, 15))
+
+    # Drawing Coins and its counter
+    money = mySprites.CoinUI(700, 15)
+    screen.blit(money.image, money.rect)
+    text = font.render(str(counter) + " / 10", False, (255, 255, 255))
+    screen.blit(text, (720, 7))
+
+    # Drawing Score of the player
+    text = font.render("SCORE: " + str(player.score), True, (255, 255, 255))
+    # left bottom corner
+    screen.blit(text, (10, 575))
+
+
     pygame.display.flip()
 
     # collision detection
