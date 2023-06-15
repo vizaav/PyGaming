@@ -268,7 +268,7 @@ while running:
             print("SCORE: " + str(player.score))
             print("TIME: " + str(pygame.time.get_ticks() / 1000))
             running = False
-    if counter >= 10:
+    if counter >= 5:
         # Winning condition and end of the game
         waiting = True
         while waiting:
@@ -292,7 +292,7 @@ while running:
                 # coin spown and randomness
                 coin_spawn = random.randint(0, 1000)
                 print(coin_spawn)
-                if (coin_spawn > 900 ):
+                if (coin_spawn > 800 ):
                     coin = mySprites.Coin(cat.catX, cat.catY)
                     cgroup.append(coin)
                     player.increase_score(10)
@@ -350,7 +350,7 @@ while running:
     # Drawing Coins and its counter
     money = mySprites.CoinUI(700, 15)
     screen.blit(money.image, money.rect)
-    text = font.render(str(counter) + " / 10", False, (255, 255, 255))
+    text = font.render(str(counter) + " / 5", False, (255, 255, 255))
     screen.blit(text, (720, 7))
 
     # Drawing Score of the player
