@@ -233,6 +233,7 @@ class Cat(sprite.Sprite):
         self.speed[0] = -self.speed[0]
         self.speed[1] = -self.speed[1]
 
+
 class Bullet(sprite.Sprite):
 
     def __init__(self, brajanek, speed, direction):
@@ -256,24 +257,17 @@ class Bullet(sprite.Sprite):
         else:
             self.direction = direction
 
-    # def check_collision(self, cat):
-    #     """Checks if the obstacle collides with the sprite
-    #     :param cat: sprite to check collision with
-    #     :return: True if the obstacle collides with the sprite, False otherwise"""
-    #     if self.rect.colliderect(cat.rect):
-    #         return True
-    #     else:
-    #         return False
-
     def kill(self) -> None:
         """Kills the sprite
         :return: None"""
         super().kill()
 
+
 class Player:
     def __init__(self):
         """
-        Initializes the player class, sets the lives to 3 and score to 0, it is meant to be used outside of player so that Brajanek doesnt have too many functions
+        Initializes the player class, sets the lives to 3 and score to 0, it is meant to be used outside of player so
+        that Brajanek doesnt have too many functions
         """
         self.lives = 3
         self.score = 0
@@ -327,34 +321,37 @@ class Coin(sprite.Sprite):
 
 class Heart(sprite.Sprite):
 
-        def __init__(self, x, y):
-            """
-            Initializes the heart sprite, changes it's image size to 40x40 and sets it's location to the given coordinates used for UI nothing else
-            :param x: takes given x coordinate for it to be placed on the screen
-            :param y: takes given y coordinate for it to be placed on the screen
-            """
-            super().__init__()
-            self.image = wyglad.wyglady_heart["heart"]
-            self.image = transform.scale(self.image, (40, 40))
-            self.rect = self.image.get_rect()
-            self.rect.center = (x, y)
-            self.heartX = x
-            self.heartY = y
+    def __init__(self, x, y):
+        """
+        Initializes the heart sprite, changes it's image size to 40x40 and sets it's location to the given
+        coordinates used for UI nothing else
+        :param x: takes given x coordinate for it to be placed on the screen
+        :param y: takes given y coordinate for it to be placed on the screen
+        """
+        super().__init__()
+        self.image = wyglad.wyglady_heart["heart"]
+        self.image = transform.scale(self.image, (40, 40))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.heartX = x
+        self.heartY = y
+
 
 class CoinUI(sprite.Sprite):
 
-        def __init__(self, x, y):
-            """
-            Initializes the Second coin sprite, second bc of the size of playable and collidable one isnt good and changing it inside main would be a pain to fix
-            changes it's image size to 40x40 and sets it's location to the given coordinates
-            Used for UI nothing else
-            :param x: takes given x coordinate for it to be placed on the screen
-            :param y: takes given y coordinate for it to be placed on the screen
-            """
-            super().__init__()
-            self.image = wyglad.wyglady_coin["coin"]
-            self.image = transform.scale(self.image, (40, 40))
-            self.rect = self.image.get_rect()
-            self.rect.center = (x, y)
-            self.coinX = x
-            self.coinY = y
+    def __init__(self, x, y):
+        """
+        Initializes the Second coin sprite, second bc of the size of playable and collidable one isnt good and
+        changing it inside main would be a pain to fix changes it's image size to 40x40 and sets it's location to the
+        given coordinates Used for UI nothing else
+        :param x: takes given x coordinate for it to be placed on the
+        screen
+        :param y: takes given y coordinate for it to be placed on the screen
+        """
+        super().__init__()
+        self.image = wyglad.wyglady_coin["coin"]
+        self.image = transform.scale(self.image, (40, 40))
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+        self.coinX = x
+        self.coinY = y
