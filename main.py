@@ -220,6 +220,8 @@ while running:
             text = fontend.render("YOU WON", True, (255, 255, 255))
             # Making sure the text is centered (it isn't, and it doesn't like me very much)
             screen.blit(text, (400 - text.get_width() // 2, 300 - text.get_height() // 2))
+            text2 = fontend.render("SCORE: " + str(player.score), True, (255, 255, 255))
+            screen.blit(text2, (400 - text2.get_width() // 2, 350 - text2.get_height() // 2))
             pygame.display.flip()
             pygame.time.delay(1000)
             waiting = False
