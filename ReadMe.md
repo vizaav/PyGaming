@@ -33,6 +33,13 @@ Brajanek Defence is a simple developed using the Pygame library. The game featur
 - Developed by Izabela Pawlukowska and Filip Król
 - All assets used in the game are from [OpenGameArt](https://opengameart.org/)
 
-## License
+## Documentation
 
-[License information if applicable]
+- Documentation can be found in the [PDF](PDF%20DOKUMENTACJA) folder.
+- The documentation is in english.
+- Rinoh refused cooperation with the project, so the documentation is in PDF format made from LaTeX auto generated file.
+- The documentation is not complete, but it contains all the necessary information to the inner workings of the game, not how the game runs line by line that would be awful.
+- Main file of the documentation is [documentacja.pdf](PDF%20DOKUMENTACJA/documentacja.pdf)
+- Backup file of the documentation is [index.pdf](PDF%20DOKUMENTACJA/index.pdf)
+
+
