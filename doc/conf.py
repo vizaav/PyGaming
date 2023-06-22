@@ -15,14 +15,14 @@ print(sys.path)
 sys.path.insert(0, os.path.abspath('..'))
 
 project = 'BrajanekDefence'
-copyright = '2023, Izabela Pawlukowska'
-author = 'Izabela Pawlukowska'
+copyright = '2023, Izabela Pawlukowska Filip Król'
+author = 'Izabela Pawlukowska Filip Król'
 release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['rinoh.frontend.sphinx', 'sphinx.ext.autodoc', 'sphinx.ext.napoleon']
+extensions = ['rinoh', 'sphinx.ext.autodoc', 'sphinx.ext.napoleon']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
